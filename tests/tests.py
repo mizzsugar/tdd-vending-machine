@@ -1,6 +1,16 @@
 import pytest
 import unittest
 
+"""
+TODO: 
+
+[x] 100円でコーラを買う
+    [x] 0円でコーラは買えない
+[x] 200円でレッドブルを買う
+    [x] 0円でレッドブルは買えない
+"""
+
+
 class VendingMachine:
     def __init__(self):
         self.receipt_amount = 0
@@ -66,6 +76,7 @@ class TestVendingMachine(unittest.TestCase):
 
         vending_machine.insert(100)
         assert vending_machine.click("レッドブル") == "レッドブル"
+
 
 if __name__ == "__main__":
     unittest.main()
