@@ -104,6 +104,18 @@ class TestVendingMachine(unittest.TestCase):
         actual = vending_machine.lightened
         assert expect == actual
 
+    def test_100円と50円と500円と10円を入れられる(self):
+        vending_machine = VendingMachine()
+
+        yen100 = Yen(100)
+        yen50 = Yen(50)
+        yen500 = Yen(500)
+        yen10 = Yen(10)
+
+        vending_machine.insert(yen100)
+
+        assert  vending_machine.receipt_amount == 100
+
 
 if __name__ == "__main__":
     unittest.main()
