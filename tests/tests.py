@@ -10,39 +10,38 @@ TODO:
     [x] 0円でレッドブルは買えない
 """
 
+class Beverage:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+    def can_buy(self, receipt_amount):
+        if receipt_amount >= self.price:
+            return self
+        else:
+            print("お金が足りません")
+            return None
+
 
 class VendingMachine:
+    cola    = Beverage("コーラ", 100)
+    oolong  = Beverage("ウーロン茶", 100)
+    redbull = Beverage("レッドブル", 200)
+
+
     def __init__(self):
         self.receipt_amount = 0
 
-    def cola(self):
-        if self.receipt_amount >= 100:
-            return 'コーラ'
-        else:
-            return None
 
-    def oolong(self):
-        if self.receipt_amount >= 100:
-            return 'ウーロン茶'
-        else:
-            return None
-        
-    def redbull(self):
-        if self.receipt_amount >= 200:
-            return 'レッドブル'
-        else:
-            return None
-
-
-    def click(self, beverage=None):
+    def click(self, beverage:str=None):
         if beverage is None:
             return None
-        elif beverage ==  "コーラ":
-            return self.cola()
-        elif beverage ==  "ウーロン茶":
-            return self.oolong()
-        elif beverage ==  "レッドブル":
-            return self.redbull()                 
+        elif beverage == self.cola.name:
+            return self.cola.can_buy(self.receipt_amount)
+        elif beverage == self.oolong.name:
+            return self.oolong.can_buy(self.receipt_amount)
+        elif beverage == self.redbull.name:
+            return self.redbull.can_buy(self.receipt_amount)
         else:
             return None
     
@@ -56,7 +55,7 @@ class TestVendingMachine(unittest.TestCase):
         assert vending_machine.click() == None
 
         vending_machine.insert(100)
-        assert vending_machine.click('コーラ') == 'コーラ'
+        assert vending_machine.click('コーラ') == vending_machine.cola
 
     def test_ボタンを押すとウーロン茶が出る(self):
         vending_machine = VendingMachine()
@@ -64,7 +63,7 @@ class TestVendingMachine(unittest.TestCase):
         assert vending_machine.click() == None
 
         vending_machine.insert(100)
-        assert vending_machine.click("ウーロン茶") == "ウーロン茶"
+        assert vending_machine.click("ウーロン茶") == vending_machine.oolong
 
     def test_200円入れるとレッドブルが出る(self):
         vending_machine = VendingMachine()
@@ -75,7 +74,15 @@ class TestVendingMachine(unittest.TestCase):
         assert vending_machine.click("レッドブル") == None
 
         vending_machine.insert(100)
-        assert vending_machine.click("レッドブル") == "レッドブル"
+        assert vending_machine.click("レッドブル") == vending_machine.redbull
+
+    def test_お金を入れるとボタンが光る(self):
+        vending_machine = VendingMachine()
+        vending_machine.insert(100)
+
+        expect = ["コーラ", "ウーロン茶"]
+        actual = vending_machine.lightened
+        assert expect == actual
 
 
 if __name__ == "__main__":
