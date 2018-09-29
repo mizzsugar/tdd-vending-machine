@@ -31,7 +31,7 @@ class VendingMachine:
 
     def __init__(self):
         self.receipt_amount = 0
-
+        self.lightened = []
 
     def click(self, beverage:str=None):
         if beverage is None:
@@ -47,6 +47,15 @@ class VendingMachine:
     
     def insert(self, coin: int):
         self.receipt_amount += coin
+        
+        if self.cola.can_buy(self.receipt_amount) != None:
+            self.lightened.append(self.cola.name)
+        if self.oolong.can_buy(self.receipt_amount) != None:
+            self.lightened.append(self.oolong.name)
+        if self.redbull.can_buy(self.receipt_amount) != None:
+            self.lightened.append(self.redbull.name)
+
+    
 
 class TestVendingMachine(unittest.TestCase):
     def test_ボタンを押すとコーラが出る(self):
